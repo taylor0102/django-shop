@@ -12,3 +12,5 @@ class Category(MP_Node):
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
         db_table = 'category'
+
+    

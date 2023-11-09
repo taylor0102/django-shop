@@ -1,8 +1,8 @@
 from django.contrib import admin
 from treebeard.admin import TreeAdmin
-from . import models
+from .models import Category
 
 
-@admin.register(models.Category)
+@admin.register(Category)
 class CategpryAdmin(TreeAdmin):
-    pass
+    prepopulated_fields = {'slug': ('title',)}
