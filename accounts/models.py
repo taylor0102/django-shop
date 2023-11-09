@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django_jalali.db import models as jmodels
 from django.utils import timezone
+from django.db.models import Manager
 from . import manager
 from common.models import SoftDelete
 
@@ -63,6 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin, SoftDelete):
 
 
 class RecycleUser(User):
-        
+    deleted = Manager()
+    
     class Meta:
         proxy = True

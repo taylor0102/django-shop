@@ -1,5 +1,8 @@
+from typing import Any
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.db.models.query import QuerySet
+from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from django_jalali.admin.filters import JDateFieldListFilter
 from . import models
@@ -46,8 +49,17 @@ class UsersAdmin(UserAdmin):
     )
     list_display_links = ('mobile_phone', 'email')
     readonly_fields = ('update_information',)
+    
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        return models.User.objects.filter(is_deleted=False)
 
 
 @admin.register(models.RecycleUser)
 class RecycleAdmin(admin.ModelAdmin):
-    pass
+    actions = ('recover',)
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        return models.RecycleUser.deleted.filter(is_deleted=True)
+    
+    @admin.action(description='recovery user')
+    def recover(self, request: HttpRequest, queryset: QuerySet[Any]):
+        queryset.update(is_deleted=False, deleted_at=None)
