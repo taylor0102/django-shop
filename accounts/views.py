@@ -12,7 +12,7 @@ from . import models
 
 class CreateUserApiView(CreateAPIView):
     serializer_class = serializers.UserRegisterSerializer
-    queryset = models.User.objects.all
+    queryset = models.User.objects.all()
 
 
 class ProfileUserViewSet(viewsets.ViewSet):
@@ -31,7 +31,7 @@ class ProfileUserViewSet(viewsets.ViewSet):
         ser_user = self.serializer_class(user, data=request.data)
         if ser_user.is_valid():
             ser_user.save()
-            return Response(ser_user.data, status=status.HTTP_200_OK)
+            return Response(ser_user.data, status=status.HTTP_201_CREATED)
         return Response(ser_user.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def partial_update(self, request, pk=None):
@@ -48,7 +48,9 @@ class ProfileUserViewSet(viewsets.ViewSet):
         user.is_active = False
         user.deleted_at = timezone.now()
         user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({
+            'messages': 'user has been deleted successfully'
+        })
 
 
 
