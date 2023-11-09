@@ -32,7 +32,11 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     # api accounts
-    path('user/', include('accounts.urls', namespace='user'))
+    path('user/', include('accounts.urls', namespace='user')),
+    # Category client
+    path('category/client/', include('Category.client.urls', namespace='category_client')),
+    # Category Admin
+    # path('Category/admin/', include('Category.admin.urls', namespace='category_admin')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
