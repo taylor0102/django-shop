@@ -26,23 +26,38 @@ from rest_framework_simplejwt.views import (
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 
-urlpatterns = [
+# admin rest 
+admin_urls = [
+    # Category Admin
+    path('Category/admin/', include('Category.admins.urls', namespace='category_admin')),
+]
+# client rest
+client_urls = [
+    # Category client
+    path('category/client/', include('Category.client.urls', namespace='category_client')),
+
+]
+# swagger doc
+open_api_doc = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-    # admin pannel
-    path('store/', admin.site.urls),
+]
+# jwt authentication credentials
+jwt_token = [
     # jwt auth token
     path('api/token/generate/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+]
+
+urlpatterns = [
+    # admin pannel
+    path('store/', admin.site.urls),
     # api accounts
     path('user/', include('accounts.urls', namespace='user')),
-    # Category client
-    path('category/client/', include('Category.client.urls', namespace='category_client')),
-    # Category Admin
-    # path('Category/admin/', include('Category.admin.urls', namespace='category_admin')),
-]
+
+] + client_urls + jwt_token + open_api_doc
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

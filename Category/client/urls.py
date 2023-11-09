@@ -5,7 +5,7 @@ from . import veiws
 
 
 router = DefaultRouter()
-router.register(r'category', veiws.CategoryViewSet, basename='category')
+router.register(r'category', veiws.CategoryViewSet)
 
 app_name = 'category_client'
 urlpatterns = [
