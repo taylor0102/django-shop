@@ -10,3 +10,4 @@ class CategpryAdmin(TreeAdmin):
     prepopulated_fields = {
         'slug': ('title', )
     }
+    list_display = ('title', 'id')

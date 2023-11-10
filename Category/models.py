@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from treebeard.mp_tree import MP_Node
+from .managers import CategoryQueryset
 
 
 class Category(MP_Node):
@@ -8,6 +9,8 @@ class Category(MP_Node):
     slug = models.SlugField(unique=True)
     is_public = models.BooleanField(default=True)
 
+    objects = CategoryQueryset.as_manager()
+    
     def __str__(self) -> str:
         return self.title
     

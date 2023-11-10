@@ -58,6 +58,6 @@ urlpatterns = [
     # api accounts
     path('user/', include('accounts.urls', namespace='user')),
 
-] + client_urls + jwt_token + open_api_doc
+] + client_urls + jwt_token + open_api_doc + admin_urls
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
